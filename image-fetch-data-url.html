@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Fetch Image Data URL</title>
+</head>
+
+<body>
+  <h1>Image</h1>
+  <div>
+    <img id="logo" src="https://blog.mozilla.org/opendesign/files/2017/06/logo-1000x256.png" alt="MDN Web Docs logo">
+  </div>
+  <div>
+    <button id="get-data-url">Get Data URL</button>
+    <textarea id="data-url"></textarea>
+    <img id="new-image" alt="New image">
+  </div>
+  <script>
+    async function toDataURL(url) {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return await new Promise(resolve => {
+        reader.addEventListener('load', () => resolve(reader.result));
+      });
+    }
+
+    document.querySelector('#get-data-url').addEventListener('click', () => {
+      const img = document.querySelector('#logo');
+      const textarea = document.querySelector('#data-url');
+      const destImg = document.querySelector('#new-image');
+
+      toDataURL(img.src).then(dataURL => {
+        textarea.value = dataURL;
+        destImg.src = dataURL;
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Image Data URL from Canvas</title>
+</head>
+
+<body>
+  <h1>Image</h1>
+  <div>
+    <img id="logo" src="https://blog.mozilla.org/opendesign/files/2017/06/logo-1000x256.png" crossorigin="anonymous"
+      alt="MDN Web Docs logo">
+  </div>
+  <div>
+    <button id="get-data-url">Get Data URL</button>
+    <textarea id="data-url"></textarea>
+    <img id="new-image" alt="New image">
+  </div>
+  <script>
+    function toDataURL(image) {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0);
+
+      return canvas.toDataURL('image/png');
+    }
+
+    document.querySelector('#get-data-url').addEventListener('click', () => {
+      const img = document.querySelector('#logo');
+      const textarea = document.querySelector('#data-url');
+      const destImg = document.querySelector('#new-image');
+
+      const dataURL = toDataURL(img);
+      textarea.value = dataURL;
+      destImg.src = dataURL;
+    });
+  </script>
+</body>
+
+</html>
